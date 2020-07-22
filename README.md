@@ -1,4 +1,4 @@
-# M-todo-de-Elemento-Finito-FEM-Finite-Element-Method
+# Metodo-de-Elemento-Finito-(FEM)-Finite-Element-Method
 **ESPAÑOL**
 Este repositorio contiene todos los códigos Matlab de FEM que he desarrollado en mi canal de Youtube Tutoingeniero.
 
@@ -9,10 +9,11 @@ This repository contains all the FEM Matlab codes I've developed on my Youtube c
 
 ## Elementos tipo barra | Trusses Elements
 **ESPAÑOL**
-Estos códigos resuelven armaduras en 1D, 2D y 3D usando el método de rigidez.
+Estos códigos resuelven armaduras en 1D, 2D y 3D usando el método de rigidez. Puedes ver mi lista de reproducción sobre estos temas en este enlace: https://www.youtube.com/playlist?list=PLSrGuI5Xqm-6OMmCScW2SBeoHGqR1G2oG
 
 - [Barras en 1D](https://github.com/RolaValdez/M-todo-de-Elemento-Finito-FEM-Finite-Element-Method/blob/master/ElementoBarra1D.m)
-
+- [Barras en 2D (Necesitas la función transformadalineal!)](https://github.com/RolaValdez/M-todo-de-Elemento-Finito-FEM-Finite-Element-Method/blob/master/ElementoBarra2D.m)
+- [función transformadalineal](https://github.com/RolaValdez/M-todo-de-Elemento-Finito-FEM-Finite-Element-Method/blob/master/transformadalineal.m)
 
 **ENGLISH**
-These codes solve trusses in 1D, 2D and 3D using the stiffness method.
+These codes solve trusses in 1D, 2D and 3D using the stiffness method. You can watch my playlist of videos where I develop these codes (in spanish though): https://www.youtube.com/playlist?list=PLSrGuI5Xqm-6OMmCScW2SBeoHGqR1G2oG
