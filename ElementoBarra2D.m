@@ -1,24 +1,24 @@
-%% CÛdigo para resolver sistemas de elementos tipo barra en 2D
-%Autor: Rolando Valdez Guzm·n
+%% C√≥digo para resolver sistemas de elementos tipo barra en 2D
+%Autor: Rolando Valdez Guzm√°n
 %Alias: Tutoingeniero
 %Canal de Youtube: https://www.youtube.com/channel/UCU1pdvVscOdtLpRQBp-TbWg
-%VersiÛn: 1.0
+%Versi√≥n: 1.0
 %Actualizado: 22/jul/2020
 
 %Referencias: "A First Course in the Finite Element Method" por Daryl. L.
 %Logan
 
 %% Variables:
-%numelementos = Es un escalar que define el n˙mero de barras que tiene el
+%numelementos = Es un escalar que define el n√∫mero de barras que tiene el
 %sistema.
 
-%E =  MÛdulo de elasticidad de las barras. si todos tienen el mismo usa
-%Ìndices en E para definir el mismo valor n veces en un vector (por ejemplo: E(1:numelementos) = X)
+%E =  M√≥dulo de elasticidad de las barras. si todos tienen el mismo usa
+%√≠ndices en E para definir el mismo valor n veces en un vector (por ejemplo: E(1:numelementos) = X)
 %Si algunas o todas la barras tienen diferentes valores para E, escribe
 %cada uno en un vector (E = [E1 E2 E3 ...])
 
-%area = Area de la secciÛn transversal de cada barra. Al igual que con E,
-%si todas las barras tienen la misma ·rea usa Ìndices (por ejemplo: area(1:numelementos) = X)
+%area = Area de la secci√≥n transversal de cada barra. Al igual que con E,
+%si todas las barras tienen la misma √°rea usa √≠ndices (por ejemplo: area(1:numelementos) = X)
 %Si algunas o todas la barras tienen diferentes valores de area, escribe
 %cada uno en un vector (area = [area1 area2 area3 ...])
 
@@ -26,35 +26,35 @@
 %problema. Recomiendo siempre poner el origen en el primer nodo. Ejemplo:
 %[x1 y1 ; x2 y2 ; ...]
 
-%UnionNodos = Son los Ìndices de los nodos que conforman a cada barra. Cada
-%barra se conforma por una lÌnea que va de un nodo a otro.
+%UnionNodos = Son los √≠ndices de los nodos que conforman a cada barra. Cada
+%barra se conforma por una l√≠nea que va de un nodo a otro.
 
 %Desplazamientos = Condiciones de frontera para cada componente XY de cada nodo 
-%(0 si el nodo est· empotrado y 1 si el nodo puede moverse). Por ejemplo:
+%(0 si el nodo est√° empotrado y 1 si el nodo puede moverse). Por ejemplo:
 %[dx1 dy1 dx2 dy2 dx3 dy3 ...]
 
 %Fuerzas = Vector de fuerzas del sistema (0 si no hay una fuerza actuando
 %en dicho nodo y un valor cualquiera si hay una fuerza. Dependiendo del
-%sentido de cada fuerza, se deber· usar un signo negativo o positivo).
+%sentido de cada fuerza, se deber√° usar un signo negativo o positivo).
 %[Fx1 Fy1 Fx2 Fy2 Fx3 Fy3 ...]
 
 clc; clear;
 
 %% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Setup~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%%
 
-%Resuelve un sistema de barras en 2D con el mÈtodo de elemento finito.
-%Puedes usar cualquiera de los tres ejemplos que dejo aquÌ en esta secciÛn,
+%Resuelve un sistema de barras en 2D con el m√©todo de elemento finito.
+%Puedes usar cualquiera de los tres ejemplos que dejo aqu√≠ en esta secci√≥n,
 %todos del libro que dejo arriba o basarte en los ejemplos para resolver tu
-%propio sistema, sÛlo debes seguir la misma estructura.
+%propio sistema, s√≥lo debes seguir la misma estructura.
 
-%NOTA: Este cÛdigo sÛlo funciona si se desconocen TODOS los desplazamientos
-%nodales, el algoritmo NO resolver· sistemas con desplazamientos conocidos
+%NOTA: Este c√≥digo s√≥lo funciona si se desconocen TODOS los desplazamientos
+%nodales, el algoritmo NO resolver√° sistemas con desplazamientos conocidos
 %correctamente.
 
 %Ejemplo 3.5 del libro
 
-numelementos=3;                             %N˙mero de elementos
-E(1:numelementos)=30*10^6;                  %MÛdulo de elasticidad por elemento
+numelementos=3;                             %N√∫mero de elementos
+E(1:numelementos)=30*10^6;                  %M√≥dulo de elasticidad por elemento
 area(1:numelementos)=2;                     %Areas de cada elemento
 nodos=[0 0 ; 0 120; 120 120; 120 0];        %Coordenadas de cada nodo
 UnionNodos=[1 2;1 3;1 4];                   %Nodos que unen a cada elemento
@@ -83,7 +83,7 @@ Fuerzas=[0 -10000 0 0 0 0 0 0 ];            %Fuerzas por nodo
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Algoritmo~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%
 
-%ConstrucciÛn de las matrices de rigidez de cada barra.
+%Construcci√≥n de las matrices de rigidez de cada barra.
 
 L=zeros(1,numelementos);              %Inicializamos el vector de longitudes
 grados=zeros(1,numelementos);         %Inicializamos el vector de inclinaciones
@@ -93,10 +93,10 @@ for i=1:numelementos
     a=nodos(indice(1),:);                               %Recogemos X2 y X1
     L(i)=norm(b-a); %Calculamos longitud usando la distancia entre dos puntos
     
-    %Determinamos el ·ngulo del elemento con respecto a la horizontal
+    %Determinamos el √°ngulo del elemento con respecto a la horizontal
     dx=nodos(indice(2),1) - nodos(indice(1),1);
     dy=nodos(indice(2),2) - nodos(indice(1),2);   
-    %Determinamos en quÈ cuadrante se encuentra el elemento
+    %Determinamos en qu√© cuadrante se encuentra el elemento
     grados(i)=atand(dy/dx);                                 %Cuadrante 1
     if sign(dy)==1 && sign(dx)==-1                          %Cuadrante 2
         grados(i)=180+grados(i);
@@ -118,14 +118,14 @@ A=zeros(4,4,numelementos);     %Inicializamos las matrices de rigidez de cada el
 for i=1:numelementos
     %Calculo de la matriz de rigidez de cada elemento (AE/L)*k_local
     
-    A(:,:,i)=k(i)*transformadalineal(grados(i));  %NECESITAS LA FUNCION TRANSFORMADALINEAL!  
+    A(:,:,i)=k(i)*transformadalineal(grados(i));  %TRANSFORMADALINEAL se encuentra hasta abajo  
     
     %Convertimos el arreglo A en celdas pero las matrices de 4x4 de A las
     %dividimos en 4 paquetes de 2x2
-    j=UnionNodos(i,:);                      %Par de Ìndice de cada elemento
+    j=UnionNodos(i,:);                      %Par de √≠ndice de cada elemento
     B(:,:,i)=mat2cell(A(:,:,i),[2 2],[2 2]);
     
-    %Asignamos cada paquete en los Ìndices correspondientes de la matriz
+    %Asignamos cada paquete en los √≠ndices correspondientes de la matriz
     %global de rigidez
     C(j(1),j(1),i)=B(1,1,i);
     C(j(1),j(2),i)=B(1,2,i);
@@ -138,20 +138,19 @@ S=2*size(nodos,1);                          %Dimensiones de la matriz global
 m=cell(S/2,S/2);
 for i=1:size(nodos,1)
     for j=1:size(nodos,1)
-        
-        %En cada vuelta recogemos todos los elementos con el mismo Ìndice
-        %(i,j), los superponemos y sumamos entre sÌ.
+        %En cada vuelta recogemos todos los elementos con el mismo √≠ndice
+        %(i,j), los superponemos y sumamos entre s√≠.
         clear x
         x(:,:,:)=cell2mat(reshape(C(i,j,:),1,[],numelementos));
         m(i,j)={sum(x,3)};
         
-        %Si en ese Ìndice (i,j) no se asignÛ ning˙ paquete, metemos un paquete de ceros de 2x2
+        %Si en ese √≠ndice (i,j) no se asign√≥ ning√∫ paquete, metemos un paquete de ceros de 2x2
         if size(m{i,j})==[0 0]  
             m(i,j)={zeros(2,2)};
         end
     end
 end
-MG=cell2mat(m)          %Convertimos la matriz global en un arreglo numÈrico
+MG=cell2mat(m)          %Convertimos la matriz global en un arreglo num√©rico
 
 %Reducir la matriz global
 v=find(Desplazamientos==0);                   
@@ -213,7 +212,7 @@ Esfuerzos
 Reacciones=MG*dfinal               %Reacciones globales
 Flocal                    %Reacciones locales por elemento
 
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Gr·fica~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Gr√°fica~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%
 
 d3=reshape(dfinal,[2,size(nodos,1)])';
 NodosDesp=nodos + d3;
@@ -242,3 +241,18 @@ Nocerox=find(d3(:,1)~=0);
 Noceroy=find(d3(:,2)~=0);
 plot(NodosDespx(Nocerox),NodosDespy(Noceroy),'og','MarkerSize',6,'MarkerFaceColor','g');
 
+%~~~~~~~~~~~~~~~~~~~~~~~~~funci√≥n transformadalineal~~~~~~~~~~~~~~~~~~~~~~%
+
+function [M]=transformadalineal(theta)
+m={@(x) (cosd(x))^2 @(x) sind(x)*cosd(x) @(x) -(cosd(x))^2 @(x) -sind(x)*cosd(x);...
+    @(x) sind(x)*cosd(x) @(x) (sind(x))^2 @(x) -sind(x)*cosd(x) @(x) -(sind(x))^2;...
+    @(x) -(cosd(x))^2  @(x) -sind(x)*cosd(x) @(x) (cosd(x))^2 @(x) sind(x)*cosd(x);...
+    @(x) -sind(x)*cosd(x) @(x) -(sind(x))^2 @(x) sind(x)*cosd(x) @(x) (sind(x))^2};
+
+M=zeros(4,4);
+for i=1:4
+    for j=1:4
+        M(i,j)=feval(m{i,j},theta);
+    end
+end
+end
