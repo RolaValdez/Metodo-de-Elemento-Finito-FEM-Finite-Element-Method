@@ -17,3 +17,7 @@ Estos códigos resuelven armaduras en 1D, 2D y 3D usando el método de rigidez. 
 
 **ENGLISH**
 These codes solve trusses in 1D, 2D and 3D using the stiffness method. You can watch my playlist of videos where I develop these codes (in spanish though): https://www.youtube.com/playlist?list=PLSrGuI5Xqm-6OMmCScW2SBeoHGqR1G2oG
+
+- [1D Trusses](https://github.com/RolaValdez/Metodo-de-Elemento-Finito-FEM-Finite-Element-Method/blob/master/Trusses1D.m)
+- [2D Trusses](https://github.com/RolaValdez/Metodo-de-Elemento-Finito-FEM-Finite-Element-Method/blob/master/Trusses2D.m)
+- [3D Trusses](https://github.com/RolaValdez/Metodo-de-Elemento-Finito-FEM-Finite-Element-Method/blob/master/Trusses3D.m)
