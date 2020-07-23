@@ -1,24 +1,24 @@
-%% CÛdigo para resolver sistemas de elementos tipo barra en 3D
-%Autor: Rolando Valdez Guzm·n
+%% C√≥digo para resolver sistemas de elementos tipo barra en 3D
+%Autor: Rolando Valdez Guzm√°n
 %Alias: Tutoingeniero
 %Canal de Youtube: https://www.youtube.com/channel/UCU1pdvVscOdtLpRQBp-TbWg
-%VersiÛn: 1.0
+%Versi√≥n: 1.0
 %Actualizado: 22/jul/2020
 
 %Referencias: "A First Course in the Finite Element Method" por Daryl. L.
 %Logan
 
 %% Variables:
-%numelementos = Es un escalar que define el n˙mero de barras que tiene el
+%numelementos = Es un escalar que define el n√∫mero de barras que tiene el
 %sistema.
 
-%E =  MÛdulo de elasticidad de las barras. si todos tienen el mismo usa
-%Ìndices en E para definir el mismo valor n veces en un vector (por ejemplo: E(1:numelementos) = X)
+%E =  M√≥dulo de elasticidad de las barras. si todos tienen el mismo usa
+%√≠ndices en E para definir el mismo valor n veces en un vector (por ejemplo: E(1:numelementos) = X)
 %Si algunas o todas la barras tienen diferentes valores para E, escribe
 %cada uno en un vector (E = [E1 E2 E3 ...])
 
-%area = Area de la secciÛn transversal de cada barra. Al igual que con E,
-%si todas las barras tienen la misma ·rea usa Ìndices (por ejemplo: area(1:numelementos) = X)
+%area = Area de la secci√≥n transversal de cada barra. Al igual que con E,
+%si todas las barras tienen la misma √°rea usa √≠ndices (por ejemplo: area(1:numelementos) = X)
 %Si algunas o todas la barras tienen diferentes valores de area, escribe
 %cada uno en un vector (area = [area1 area2 area3 ...])
 
@@ -26,61 +26,73 @@
 %problema. Recomiendo siempre poner el origen en el primer nodo. Ejemplo:
 %[x1 y1 z1; x2 y2 z1; ...]
 
-%UnionNodos = Son los Ìndices de los nodos que conforman a cada barra. Cada
-%barra se conforma por una lÌnea que va de un nodo a otro.
+%UnionNodos = Son los √≠ndices de los nodos que conforman a cada barra. Cada
+%barra se conforma por una l√≠nea que va de un nodo a otro.
 
 %Desplazamientos = Condiciones de frontera para cada componente XY de cada nodo 
-%(0 si el nodo est· empotrado y 1 si el nodo puede moverse). Por ejemplo:
+%(0 si el nodo est√° empotrado y 1 si el nodo puede moverse). Por ejemplo:
 %[dx1 dy1 dz1 dx2 dy2 dz2 dx3 dy3 dz3...]
 
 %Fuerzas = Vector de fuerzas del sistema (0 si no hay una fuerza actuando
 %en dicho nodo y un valor cualquiera si hay una fuerza. Dependiendo del
-%sentido de cada fuerza, se deber· usar un signo negativo o positivo).
+%sentido de cada fuerza, se deber√° usar un signo negativo o positivo).
 %[Fx1 Fy1 Fz1 Fx2 Fy2 Fz2 Fx3 Fy3 Fz3...]
 
 clc; clear;
 
 %% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Setup~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%%
 
-%Resuelve un sistema de barras en 3D con el mÈtodo de elemento finito.
-%Puedes usar cualquiera de los tres ejemplos que dejo aquÌ en esta secciÛn,
+%Resuelve un sistema de barras en 3D con el m√©todo de elemento finito.
+%Puedes usar cualquiera de los tres ejemplos que dejo aqu√≠ en esta secci√≥n,
 %todos del libro que dejo arriba o basarte en los ejemplos para resolver tu
-%propio sistema, sÛlo debes seguir la misma estructura.
+%propio sistema, s√≥lo debes seguir la misma estructura.
 
-%NOTA: Este cÛdigo sÛlo funciona si se desconocen TODOS los desplazamientos
-%nodales, el algoritmo NO resolver· sistemas con desplazamientos conocidos
+%NOTA: Este c√≥digo s√≥lo funciona si se desconocen TODOS los desplazamientos
+%nodales, el algoritmo NO resolver√° sistemas con desplazamientos conocidos
 %correctamente.
 
 %Ejemplo 3.8 del libro
 
-% numelementos=3;
-% E(1:numelementos)=1.2*10^6;
-% area=[0.302 0.729 0.187];
-% nodos=[72 0 0 ; 0 36 0 ; 0 36 72 ; 0 0 -48];
-% UnionNodos=[1 2;1 3;1 4];
-% Desplazamientos=[1 0 1 0 0 0 0 0 0 0 0 0];
-% Fuerzas=[0 0 -1000 0 0 0 0 0 0 0 0 0];
+numelementos=3;
+E(1:numelementos)=1.2*10^6;
+area=[0.302 0.729 0.187];
+nodos=[72 0 0 ; 0 36 0 ; 0 36 72 ; 0 0 -48];
+UnionNodos=[1 2;1 3;1 4];
+Desplazamientos=[1 0 1 0 0 0 0 0 0 0 0 0];
+Fuerzas=[0 0 -1000 0 0 0 0 0 0 0 0 0];
 
 %Ejemplo 3.9 del libro
 
-numelementos=3;
-E(1:numelementos)=210*10^9;
-area(1:numelementos)=10*10^-4;
-nodos=[12 -3 -4 ; 0 0 0 ; 12 -3 -7 ; 14 6 0];
-UnionNodos=[1 2 ; 1 3 ; 1 4];
-Desplazamientos=[1 1 1 0 0 0 0 0 0 0 0 0];
-Fuerzas=[20000 0 0 0 0 0 0 0 0 0 0 0];
+% numelementos=3;
+% E(1:numelementos)=210*10^9;
+% area(1:numelementos)=10*10^-4;
+% nodos=[12 -3 -4 ; 0 0 0 ; 12 -3 -7 ; 14 6 0];
+% UnionNodos=[1 2 ; 1 3 ; 1 4];
+% Desplazamientos=[1 1 1 0 0 0 0 0 0 0 0 0];
+% Fuerzas=[20000 0 0 0 0 0 0 0 0 0 0 0];
+
+%Problema 3.40 del libro
+
+% numelementos=4;
+% E(1:numelementos)=210*10^9;
+% area(1:numelementos)=10*10^-4;
+% nodos=[4 4 3 ; 0 4 0 ; 0 4 6 ; 4 0 3 ; 8 -1 1];
+% UnionNodos=[1 2 ;1 3 ; 1 4 ; 1 5];
+% Desplazamientos=[1 1 1 0 0 0 0 0 0 0 0 0 0 0 0];
+% Fuerzas=[0 -10000 0 0 0 0 0 0 0 0 0 0 0 0 0];
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Algoritmo~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%
 
-%ConstrucciÛn de las matrices de rigidez de cada barra.
+%Construcci√≥n de las matrices de rigidez de cada barra.
+
 L = zeros(1,numelementos);
 Cx = zeros(1,numelementos);
 Cy = zeros(1,numelementos);
 Cz = zeros(1,numelementos);
 LAMDA = zeros(6,6);
+
 for i = 1:numelementos
-    indice = UnionNodos(i,:);
+    indice = UnionNodos(i,:);                                   
     P1 = [nodos(indice(1),1) nodos(indice(1),2) nodos(indice(1),3)];
     P2 = [nodos(indice(2),1) nodos(indice(2),2) nodos(indice(2),3)];
     L(i) = norm(P1-P2);
@@ -102,11 +114,10 @@ for i = 1:numelementos
     
     %Convertimos el arreglo A en celdas pero las matrices de 6x6 de A las
     %dividimos en 4 paquetes de 3x3
-    
-    j = UnionNodos(i,:);                    %Par de Ìndice de cada elemento
+    j = UnionNodos(i,:);                    %Par de √≠ndice de cada elemento
     B(:,:,i) = mat2cell(A(:,:,i),[3 3],[3 3]);
     
-    %Asignamos cada paquete en los Ìndices correspondientes de la matriz
+    %Asignamos cada paquete en los √≠ndices correspondientes de la matriz
     %global de rigidez
     C(j(1),j(1),i) = B(1,1,i);
     C(j(1),j(2),i) = B(1,2,i);
@@ -119,17 +130,20 @@ S = 3*size(nodos,1);                          %Dimensiones de la matriz global
 m = cell(S/3,S/3);
 for i = 1:size(nodos,1)
     for j = 1:size(nodos,1)
+        %En cada vuelta recogemos todos los elementos con el mismo √≠ndice
+        %(i,j), los superponemos y sumamos entre s√≠.
         clear x
-        for k = 2:size(UnionNodos,1)+1
-            x(:,:,:) = cell2mat(reshape(C(i,j,:),1,[],numelementos));
-            m(i,j) = {sum(x,3)};  
-            if size(m{i,j}) == [0 0]
-                m(i,j) = {zeros(3,3)};
-            end
+        x(:,:,:) = cell2mat(reshape(C(i,j,:),1,[],numelementos));
+        m(i,j) = {sum(x,3)};
+        
+        %Si en ese √≠ndice (i,j) no se asign√≥ ning√∫ paquete, metemos un paquete de ceros de 2x2
+        if size(m{i,j}) == [0 0]
+            m(i,j) = {zeros(3,3)};
         end
+        
     end
 end
-MG = cell2mat(m)          %Convertimos la matriz global en un arreglo numÈrico
+MG = cell2mat(m)          %Convertimos la matriz global en un arreglo num√©rico
 
 %Reducir la matriz global
 v = find(Desplazamientos==0);                   
@@ -181,7 +195,7 @@ Esfuerzos
 Reacciones=MG*dfinal               %Reacciones globales
 Flocal
 
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Gr·fica~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Gr√°fica~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%
 
 d3 = reshape(dfinal,[3,size(nodos,1)])';
 NodosDesp = nodos + d3;
