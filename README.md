@@ -7,7 +7,7 @@ This repository contains all the FEM Matlab codes I've developed on my Youtube c
 
 **Matlab File Exchange:** [![View Método de elemento finito (FEM) | Finite Element Method on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://www.mathworks.com/matlabcentral/fileexchange/78522-metodo-de-elemento-finito-fem-finite-element-method)
 
-## Elementos tipo barra | Trusses Elements
+## Elementos tipo barra por método de rigidez| Trusses with stiffness method
 **ESPAÑOL**
 Estos códigos resuelven armaduras en 1D, 2D y 3D usando el método de rigidez. Puedes ver mi lista de reproducción sobre estos temas en este enlace: https://www.youtube.com/playlist?list=PLSrGuI5Xqm-6OMmCScW2SBeoHGqR1G2oG
 
